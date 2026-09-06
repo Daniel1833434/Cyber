@@ -1,0 +1,8 @@
+1$meet with dave to see if possible to cooperate$10-5-20 09:00:20
+2$bring the kids from school$20-2-19 15:00:00
+3$prepare python lesson$01-09-20 08:00:00
+4$set python as the leading teaching language$15-8-18 09:00:00
+5$ask for a vacation day$10-10-21 08:00:00
+6$make comparison between python and c#$25-8-22 11:00:10
+7$buy additional disk on key for backup$13-1-18 10:00:00
+8$buy a laptop for michal$13-1-18 09:59:00
