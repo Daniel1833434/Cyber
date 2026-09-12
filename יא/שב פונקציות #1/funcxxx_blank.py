@@ -14,7 +14,7 @@ def longest_unique_substring(s):
                 currentString+=s[j]
                 currentCount+=1
             else:
-                break;
+                break
 
         if currentCount > longestCount:
             longestCount = currentCount
