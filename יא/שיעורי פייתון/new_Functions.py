@@ -35,6 +35,56 @@
 # newlst = [x+2 for x in lst if x>2]
 # print(newlst)
 
-lst2 = [1, 2, 3, 4, 5]
-func = lambda a,lst2: [x for x in lst2 if x!=a]
-print(func(3, lst2))
+# lst2 = [1, 2, 3, 4, 5]
+# func = lambda a,lst2: [x for x in lst2 if x!=a]
+# print(func(3, lst2))
+
+# a=10
+# b=20
+# x=a if b==20 else b
+# print(x)
+
+# l1=[9, 2, 3,4,5]
+# l2=[6, 7, 8,9,10]
+# l3=[max(i[0],i[1]) for i in zip(l1,l2)]
+# print(l3)
+
+# print(sum([i**2 for i in range(5)]))
+
+# x= (i**2 for i in range(5)) // גנרטור זה פחות מקום
+# print(list(x))
+
+# def my_gen():
+#     for i in range(5):
+#         yield i**2
+
+# for nig in my_gen():   
+#     print(nig)
+
+# f = open('text.txt', 'rt')
+# for line in f:
+#     print(line.strip())
+# f.close()
+
+# with open('text.txt', 'rt') as file:#זה יותר טוב כי זה סוגר את הקובץ לבד
+#     for line in file:
+#         print(line.strip())
+
+class Nigga:
+    def __init__(self,name):
+        self.name = name
+        self.color = 'black'
+
+    def print_info(self):
+        print(f"Name: {self.name}, Color: {self.color}")
+
+class IsraliNigga(Nigga):
+    def __init__(self, name):
+        super().__init__(name)
+        self.color = 'brown'
+
+nig2 = IsraliNigga("david")
+nig2.print_info()
+
+nig1 = Nigga("abram")
+nig1.print_info()
