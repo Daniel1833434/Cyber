@@ -37,15 +37,30 @@ import sys
 # You could write a helper utility function that reads a file
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
+def helper(filename):
+    dct = {}
+    with open(filename ,'r') as file:
+        for line in file:
+            for word in line.split():
+                word = word.lower()
+                if word in dct:
+                    dct[word] +=1
+                else:
+                    dct[word] =1
+
+    return dct
 
 def print_words(filename):
-     # +++your code here+++
-    pass
+    lst = helper(filename).items()
+    lst = sorted(lst)
+    for word,count in lst:
+        print(word , count)
 
 # בשיטה שונה הפעם
 def print_top(filename):
-     # +++your code here+++
-    pass
+    lst = sorted(helper(filename).items(), reverse= True, key= lambda item :item[1])[:20]
+    for count,word in lst:
+        print(word,count)
 
 ###
 
