@@ -22,7 +22,7 @@ def verbing(s):
 def not_bad(s):
     not_Place = s.find("not")
     bad_Place = s.find("bad")
-    if not_Place<bad_Place:
+    if not_Place<bad_Place and not_Place!=-1:
         s = s[:not_Place] + "good" +s[bad_Place+3:]
     return s
 

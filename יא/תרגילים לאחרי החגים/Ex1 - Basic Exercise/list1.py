@@ -31,7 +31,7 @@ def front_x(words):
     newlst=[]
     lst_x =[]
     for word in words:
-        if word[0] == 'x':
+        if word.startswith('x'):
             lst_x.append(word)
         else:
             newlst.append(word)

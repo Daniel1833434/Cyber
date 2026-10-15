@@ -1,0 +1,6 @@
+Dana,80
+Ron,60
+
+Dana,100
+Noa,90
+Ron,70

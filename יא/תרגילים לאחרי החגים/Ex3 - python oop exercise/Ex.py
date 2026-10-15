@@ -15,7 +15,7 @@ class NoteBook(Note):
         self.notes =[]
         content = Data["content"] if "content" in Data else ''
         notes_file = Data["notes_file"] if "notes_file" in Data else ''
-        if content != '':
+        if "content" in Data:
             self.notes.append(Note(content = content))
         if notes_file != '':
             with open(notes_file,"r") as file:
@@ -32,6 +32,11 @@ class NoteBook(Note):
         return sorted(self.notes,key = lambda note : datetime.datetime.strptime(note.creation_time,"%d-%m-%y %H:%M:%S"),reverse = up_Down == 'down')
 
     def print_notes_contained(self,word):
+        for note in self.notes:
+            if note.find_in_content(word):
+                print(note.content + " " + note.creation_time)
+
+    def find_in_notes(self,word):#לא הבנתי למה צריך לכתוב את אותה פונקציה פעמיים
         for note in self.notes:
             if note.find_in_content(word):
                 print(note.content + " " + note.creation_time)

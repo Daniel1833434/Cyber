@@ -59,7 +59,7 @@ def print_words(filename):
 # בשיטה שונה הפעם
 def print_top(filename):
     lst = sorted(helper(filename).items(), reverse= True, key= lambda item :item[1])[:20]
-    for count,word in lst:
+    for word,count in lst:
         print(word,count)
 
 ###
