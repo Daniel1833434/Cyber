@@ -42,11 +42,7 @@ if __name__ == '__main__':
 
     while True:
         try:
-            try:
-                param, command = prot.recv_status(socket = client_socket)
-            except ValueError:
-                print("Client has disconnected")
-                break
+            param, command = prot.recv_status(socket = client_socket)
 
             if command == "UPLOAD":
                 param = prot.recv_all(socket=client_socket)
@@ -54,10 +50,11 @@ if __name__ == '__main__':
 
             if command == 'DOWNLOAD':
                 file_path = find_filepath(dir, param)
-                if prot.send_all(socket = client_socket , file_name = file_path , command = command) == "ERROR 404: FILE NOT FOUND":
+                if file_path == "":
                     prot.send_status(socket=client_socket, file_name=file_path, command="404")
                 else:
                     prot.send_status(socket=client_socket, file_name=file_path, command="SUCCESS")
+                    prot.send_all(socket = client_socket , file_name = file_path , command = command)
 
             if command == "DELETE":
                 file_path = find_filepath(dir, param)
@@ -74,26 +71,24 @@ if __name__ == '__main__':
                     dir_path = find_dirpath(dir, param)
 
                 if dir_path != "":
+                    prot.send_status(socket=client_socket, file_name=param, command="SUCCESS")
                     dir_str = str_from_dir(dir_path)
                     prot.send_message(socket= client_socket, data= dir_str)
-                    prot.send_status(socket=client_socket, file_name=param, command="SUCCESS")
                 else:
                     prot.send_status(socket=client_socket, file_name=param, command="404")
 
             if command == "INFO":
                 file_path = find_filepath(dir, param)
-                time = os.path.getmtime(file_path)
-                time = datetime.fromtimestamp(time).strftime("%d-%m-%Y %H:%M:%S")
-                size = os.path.getsize(file_path)
                 if file_path != "":
-                    prot.send_message(socket= client_socket, data= f"Size: {size}, Modified: {time}")
+                    time = os.path.getmtime(file_path)
+                    time = datetime.fromtimestamp(time).strftime("%d-%m-%Y %H:%M:%S")
+                    size = os.path.getsize(file_path)
                     prot.send_status(socket=client_socket, file_name=param, command="SUCCESS")
+                    prot.send_message(socket= client_socket, data= f"Size: {size}, Modified: {time}")
                 else:
                     prot.send_status(socket=client_socket, file_name=param, command="404")
 
-
-
-        except (ConnectionResetError, ConnectionAbortedError, BrokenPipeError) as e:
+        except (ConnectionResetError, ConnectionAbortedError, BrokenPipeError, ValueError) as e:
             print(f"Unexpected error with {client_addr}: {e}")
             print(f'Server listening on {HOST}:{PORT}')
             client_socket, client_addr = server_socket.accept()

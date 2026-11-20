@@ -1,7 +1,6 @@
 import json
 import os
 from tqdm import tqdm
-import json
 BUFSIZE = 2048
 HEADER_LEN = 6
 
@@ -26,7 +25,7 @@ def send_message(**kwargs):
     client_socket = kwargs.get('socket')
     msg_len = str(len(data)).rjust(HEADER_LEN, '0')
     send_msg = msg_len + data
-    client_socket.sendall(send_msg.encode())
+    client_socket.send(send_msg.encode())
     print(f"sent {send_msg}")
 
 def recv_status(**kwargs):
@@ -55,7 +54,7 @@ def send_status(**kwargs):
         "command": command
     }
     json_str = json.dumps(json_obj)
-    client_socket.send(str(len(json_str)).rjust(HEADER_LEN, '0').encode())  # send file size
+    client_socket.send(str(len(json_str)).rjust(HEADER_LEN, '0').encode())
     client_socket.send(json_str.encode())
 
 def recv_all(**kwargs):
@@ -80,7 +79,6 @@ def recv_all(**kwargs):
     cwd = os.getcwd()
     file = open(fr"{cwd}\{dir}\{file_name}", 'wb')
 
-    # second receive message/file length
     msg_len = int(file_size)
     print('Begin Receiving File...')
     byte_count = 0
@@ -90,15 +88,12 @@ def recv_all(**kwargs):
             image_chunk = client_socket.recv(min(BUFSIZE,msg_len-byte_count))
             file.write(image_chunk)
             byte_count += len(image_chunk)
-
-            # Update the tqdm progress bar
-            pbar.n = byte_count  # Set the progress bar to the current progress
-            pbar.refresh()  # Refresh to update the display
+            pbar.n = byte_count
+            pbar.refresh()
 
     print(f"{file_name.strip()}, {byte_count} bytes uploaded successfully")
     file.close()
     return fr"{cwd}\{dir}\{file_name}"
-
 
 def send_all(**kwargs):
     client_socket = kwargs.get('socket')
@@ -114,14 +109,10 @@ def send_all(**kwargs):
         "command" : command
     }
     json_str = json.dumps(json_obj)
-    client_socket.send(str(len(json_str)).rjust(HEADER_LEN,'0').encode())  # send file size
+    client_socket.send(str(len(json_str)).rjust(HEADER_LEN,'0').encode())
     client_socket.send(json_str.encode())
 
-
     image_data = 0
-    """
-    file will be send by BUF_SIZE chunks read from file that need to sent 
-    """
     print(f'Begin Sending {file_name.strip()} ...')
     file_size = int(file_size)
     with tqdm(total=file_size, desc="Processing") as pbar:
@@ -129,9 +120,8 @@ def send_all(**kwargs):
             rxd = file.read(BUFSIZE)
             image_data += len(rxd)
             client_socket.send(rxd)
-            # Update the tqdm progress bar
-            pbar.n = image_data  # Set the progress bar to the current progress
-            pbar.refresh()  # Refresh to update the display
+            pbar.n = image_data
+            pbar.refresh()
 
     print(f'{file_name.strip()},  {file_size} bytes Sent Successfully...')
     file.close()
