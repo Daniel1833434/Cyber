@@ -25,7 +25,7 @@ def send_message(**kwargs):
     client_socket = kwargs.get('socket')
     msg_len = str(len(data)).rjust(HEADER_LEN, '0')
     send_msg = msg_len + data
-    client_socket.send(send_msg.encode())
+    client_socket.sendall(send_msg.encode())
     print(f"sent {send_msg}")
 
 def recv_status(**kwargs):

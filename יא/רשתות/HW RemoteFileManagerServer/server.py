@@ -66,7 +66,7 @@ if __name__ == '__main__':
 
             if command == "DIR":
                 if param == "":
-                    dir_path = os.path.abspath(dir)
+                    dir_path = os.path.abspath(dir)# אם לא נותנים מיקום ניגשים לתיקייה המרכזית לא כלכך הבנתי לפי ההוראות אבל ככה החלטתי
                 else:
                     dir_path = find_dirpath(dir, param)
 
@@ -87,6 +87,9 @@ if __name__ == '__main__':
                     prot.send_message(socket= client_socket, data= f"Size: {size}, Modified: {time}")
                 else:
                     prot.send_status(socket=client_socket, file_name=param, command="404")
+
+            if command not in ["UPLOAD", "DOWNLOAD", "DELETE", "DIR", "INFO"]:
+                prot.send_status(socket=client_socket, file_name=param, command="400")
 
         except (ConnectionResetError, ConnectionAbortedError, BrokenPipeError, ValueError) as e:
             print(f"Unexpected error with {client_addr}: {e}")

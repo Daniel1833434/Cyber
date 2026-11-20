@@ -58,3 +58,13 @@ def INFO(filename,client_socket):
             return "ERROR 404: FILE NOT FOUND"
     except:
         return "Unkown Error"
+
+def INVALID_COMMAND(filename,client_socket,command):
+    prot.send_status(command=command, file_name=filename, socket=client_socket)
+    try:
+        status = prot.recv_status(socket=client_socket)[1]
+        if status == "400":
+            return "ERROR 400: INVALID COMMAND"
+
+    except:
+        return "Unkown Error"

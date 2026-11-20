@@ -15,7 +15,14 @@ if __name__ == '__main__':
     with open("file_commands.txt", encoding="utf-8-sig") as commands , open("manager_log.txt","w",encoding="utf-8-sig") as log:
         for line in commands:
             line = line.strip()
-            command,param = line.split(":",1)
+            if line == "":
+                continue
+            try:
+                command,param = line.split(":",1)
+            except ValueError:
+                log.write(f"{line} = ERROR 400: INVALID COMMAND \n")
+                continue
+
             result = ""
             if command == 'UPLOAD':
                 result = functions.UPLOAD(param,client_socket)
@@ -27,6 +34,8 @@ if __name__ == '__main__':
                 result = functions.DIR(param,client_socket)
             elif command == "INFO":
                 result = functions.INFO(param,client_socket)
+            else:
+                result = functions.INVALID_COMMAND(param,client_socket,command)
 
             log.write(f"{command}:{param} = {result} \n")
 

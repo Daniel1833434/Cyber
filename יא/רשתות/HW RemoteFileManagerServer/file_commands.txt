@@ -3,3 +3,5 @@ UPLOAD:hi.txt
 DELETE:hi.txt
 DIR:hi
 INFO:hi
+UPLOAD:test.txt
+hi:bye
