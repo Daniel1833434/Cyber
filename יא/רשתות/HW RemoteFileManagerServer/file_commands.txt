@@ -1,0 +1,5 @@
+DOWNLOAD:hi.txt
+UPLOAD:hi.txt
+DELETE:hi.txt
+DIR:hi
+INFO:hi
